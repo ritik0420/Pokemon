@@ -51,42 +51,18 @@ export default function PokemonCardComponent({ pokemon, index = 0 }: Props) {
         }}
         className="animate-fade-in-up"
       >
-        {/* Type gradient background */}
+        {/* Type solid tint background */}
         <div
           style={{
             position: 'absolute',
             inset: 0,
-            background: typeColor.gradient,
-            opacity: hovered ? 0.12 : 0.06,
+            background: typeColor.bg,
+            opacity: hovered ? 0.1 : 0.04,
             transition: 'opacity 0.35s ease',
           }}
         />
 
-        {/* Decorative circles */}
-        <div
-          style={{
-            position: 'absolute',
-            top: '-20px',
-            right: '-20px',
-            width: '100px',
-            height: '100px',
-            borderRadius: '50%',
-            background: typeColor.gradient,
-            opacity: 0.08,
-          }}
-        />
-        <div
-          style={{
-            position: 'absolute',
-            bottom: '-30px',
-            left: '-20px',
-            width: '80px',
-            height: '80px',
-            borderRadius: '50%',
-            background: typeColor.gradient,
-            opacity: 0.05,
-          }}
-        />
+
 
         {/* Content */}
         <div style={{ position: 'relative', padding: '20px', zIndex: 1 }}>
@@ -116,19 +92,7 @@ export default function PokemonCardComponent({ pokemon, index = 0 }: Props) {
               position: 'relative',
             }}
           >
-            {/* Glow behind image */}
-            <div
-              style={{
-                position: 'absolute',
-                width: '80px',
-                height: '80px',
-                borderRadius: '50%',
-                background: typeColor.gradient,
-                filter: 'blur(20px)',
-                opacity: hovered ? 0.5 : 0.2,
-                transition: 'opacity 0.35s ease',
-              }}
-            />
+  
             <div
               style={{
                 transform: hovered ? 'scale(1.1)' : 'scale(1)',

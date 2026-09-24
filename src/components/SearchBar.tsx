@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import { TYPE_COLORS } from '@/utils/pokemon';
+import { IconSearch, IconTag, IconX } from '@/components/Icons';
 
 interface Props {
   onSearch: (query: string) => void;
@@ -14,24 +15,20 @@ interface Props {
 const ALL_TYPES = Object.keys(TYPE_COLORS);
 
 const GENERATIONS = [
-  { label: 'All', value: 'all' },
-  { label: 'Gen I', value: '1', range: [1, 151] },
-  { label: 'Gen II', value: '2', range: [152, 251] },
-  { label: 'Gen III', value: '3', range: [252, 386] },
-  { label: 'Gen IV', value: '4', range: [387, 493] },
-  { label: 'Gen V', value: '5', range: [494, 649] },
-  { label: 'Gen VI', value: '6', range: [650, 721] },
-  { label: 'Gen VII', value: '7', range: [722, 809] },
-  { label: 'Gen VIII', value: '8', range: [810, 905] },
-  { label: 'Gen IX', value: '9', range: [906, 1025] },
+  { label: 'All',      value: 'all' },
+  { label: 'Gen I',    value: '1'   },
+  { label: 'Gen II',   value: '2'   },
+  { label: 'Gen III',  value: '3'   },
+  { label: 'Gen IV',   value: '4'   },
+  { label: 'Gen V',    value: '5'   },
+  { label: 'Gen VI',   value: '6'   },
+  { label: 'Gen VII',  value: '7'   },
+  { label: 'Gen VIII', value: '8'   },
+  { label: 'Gen IX',   value: '9'   },
 ];
 
 export default function SearchBar({
-  onSearch,
-  onTypeFilter,
-  onGenerationFilter,
-  totalCount,
-  filteredCount,
+  onSearch, onTypeFilter, onGenerationFilter, totalCount, filteredCount,
 }: Props) {
   const [query, setQuery] = useState('');
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
@@ -42,9 +39,7 @@ export default function SearchBar({
   const handleSearch = useCallback((val: string) => {
     setQuery(val);
     if (debounceRef.current) clearTimeout(debounceRef.current);
-    debounceRef.current = setTimeout(() => {
-      onSearch(val.trim().toLowerCase());
-    }, 300);
+    debounceRef.current = setTimeout(() => onSearch(val.trim().toLowerCase()), 300);
   }, [onSearch]);
 
   const toggleType = useCallback((type: string) => {
@@ -56,63 +51,50 @@ export default function SearchBar({
   }, [onTypeFilter]);
 
   const clearFilters = useCallback(() => {
-    setQuery('');
-    setSelectedTypes([]);
-    setSelectedGen('all');
-    onSearch('');
-    onTypeFilter([]);
-    onGenerationFilter('all');
+    setQuery(''); setSelectedTypes([]); setSelectedGen('all');
+    onSearch(''); onTypeFilter([]); onGenerationFilter('all');
   }, [onSearch, onTypeFilter, onGenerationFilter]);
 
   const hasFilters = query || selectedTypes.length > 0 || selectedGen !== 'all';
 
   return (
     <div style={{ marginBottom: '32px' }}>
-      {/* Main search row */}
-      <div
-        style={{
-          display: 'flex',
-          gap: '12px',
-          marginBottom: '16px',
-          flexWrap: 'wrap',
-        }}
-      >
+
+      {/* Search row */}
+      <div style={{ display: 'flex', gap: '10px', marginBottom: '14px', flexWrap: 'wrap' }}>
+
         {/* Search input */}
         <div style={{ position: 'relative', flex: '1', minWidth: '240px' }}>
           <div
             style={{
-              position: 'absolute',
-              left: '16px',
-              top: '50%',
-              transform: 'translateY(-50%)',
-              color: 'rgba(255,255,255,0.3)',
-              pointerEvents: 'none',
-              fontSize: '18px',
+              position: 'absolute', left: '14px', top: '50%',
+              transform: 'translateY(-50%)', pointerEvents: 'none',
+              color: 'rgba(255,255,255,0.28)',
             }}
           >
-            🔍
+            <IconSearch size={15} />
           </div>
           <input
             type="text"
             value={query}
             onChange={e => handleSearch(e.target.value)}
-            placeholder="Search Pokémon by name or number..."
+            placeholder="Search by name or number..."
             className="search-input"
             style={{
               width: '100%',
-              padding: '14px 16px 14px 48px',
+              padding: '13px 16px 13px 42px',
               background: 'rgba(255,255,255,0.05)',
               border: '1px solid rgba(255,255,255,0.1)',
-              borderRadius: '14px',
+              borderRadius: '10px',
               color: '#f0f0f8',
-              fontSize: '15px',
+              fontSize: '14px',
               outline: 'none',
-              transition: 'all 0.2s ease',
+              transition: 'border-color 0.2s ease, background 0.2s ease',
               fontFamily: "'Inter', sans-serif",
             }}
             onFocus={e => {
-              e.target.style.borderColor = 'rgba(99,102,241,0.6)';
-              e.target.style.background = 'rgba(255,255,255,0.08)';
+              e.target.style.borderColor = 'rgba(84,89,193,0.7)';
+              e.target.style.background = 'rgba(255,255,255,0.07)';
             }}
             onBlur={e => {
               e.target.style.borderColor = 'rgba(255,255,255,0.1)';
@@ -123,24 +105,15 @@ export default function SearchBar({
             <button
               onClick={() => handleSearch('')}
               style={{
-                position: 'absolute',
-                right: '12px',
-                top: '50%',
+                position: 'absolute', right: '10px', top: '50%',
                 transform: 'translateY(-50%)',
-                background: 'rgba(255,255,255,0.1)',
-                border: 'none',
-                borderRadius: '50%',
-                width: '24px',
-                height: '24px',
-                cursor: 'pointer',
-                color: 'rgba(255,255,255,0.6)',
-                fontSize: '14px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
+                background: 'rgba(255,255,255,0.08)', border: 'none',
+                borderRadius: '50%', width: '22px', height: '22px',
+                cursor: 'pointer', color: 'rgba(255,255,255,0.5)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
               }}
             >
-              ✕
+              <IconX size={11} />
             </button>
           )}
         </div>
@@ -149,34 +122,24 @@ export default function SearchBar({
         <button
           onClick={() => setShowTypeFilter(p => !p)}
           style={{
-            padding: '14px 20px',
-            background: showTypeFilter ? 'rgba(99,102,241,0.2)' : 'rgba(255,255,255,0.05)',
-            border: showTypeFilter ? '1px solid rgba(99,102,241,0.5)' : '1px solid rgba(255,255,255,0.1)',
-            borderRadius: '14px',
-            color: showTypeFilter ? '#a78bfa' : 'rgba(255,255,255,0.6)',
-            cursor: 'pointer',
-            fontSize: '14px',
-            fontWeight: 600,
-            transition: 'all 0.2s ease',
-            fontFamily: "'Inter', sans-serif",
-            display: 'flex',
-            alignItems: 'center',
-            gap: '8px',
-            whiteSpace: 'nowrap',
+            padding: '13px 16px',
+            background: showTypeFilter ? 'rgba(84,89,193,0.2)' : 'rgba(255,255,255,0.05)',
+            border: showTypeFilter ? '1px solid rgba(84,89,193,0.5)' : '1px solid rgba(255,255,255,0.1)',
+            borderRadius: '10px',
+            color: showTypeFilter ? '#9fa4f0' : 'rgba(255,255,255,0.55)',
+            cursor: 'pointer', fontSize: '13px', fontWeight: 600,
+            transition: 'all 0.2s ease', fontFamily: "'Inter', sans-serif",
+            display: 'flex', alignItems: 'center', gap: '8px', whiteSpace: 'nowrap',
           }}
         >
-          🏷️ Types
+          <IconTag size={14} />
+          Types
           {selectedTypes.length > 0 && (
-            <span
-              style={{
-                background: '#6366f1',
-                color: '#fff',
-                fontSize: '11px',
-                fontWeight: 700,
-                padding: '2px 7px',
-                borderRadius: '999px',
-              }}
-            >
+            <span style={{
+              background: '#5459c1', color: '#fff',
+              fontSize: '11px', fontWeight: 700,
+              padding: '1px 7px', borderRadius: '4px',
+            }}>
               {selectedTypes.length}
             </span>
           )}
@@ -187,51 +150,35 @@ export default function SearchBar({
           <button
             onClick={clearFilters}
             style={{
-              padding: '14px 20px',
-              background: 'rgba(239,68,68,0.1)',
-              border: '1px solid rgba(239,68,68,0.25)',
-              borderRadius: '14px',
-              color: '#ef4444',
-              cursor: 'pointer',
-              fontSize: '14px',
-              fontWeight: 600,
-              transition: 'all 0.2s ease',
-              fontFamily: "'Inter', sans-serif",
-              whiteSpace: 'nowrap',
+              padding: '13px 16px',
+              background: 'rgba(204,51,51,0.1)',
+              border: '1px solid rgba(204,51,51,0.25)',
+              borderRadius: '10px', color: '#cc6666',
+              cursor: 'pointer', fontSize: '13px', fontWeight: 600,
+              transition: 'all 0.2s ease', fontFamily: "'Inter', sans-serif",
+              display: 'flex', alignItems: 'center', gap: '7px', whiteSpace: 'nowrap',
             }}
           >
+            <IconX size={13} />
             Clear
           </button>
         )}
       </div>
 
-      {/* Generation filter */}
-      <div
-        style={{
-          display: 'flex',
-          gap: '8px',
-          flexWrap: 'wrap',
-          marginBottom: showTypeFilter ? '16px' : '0',
-        }}
-      >
+      {/* Generation pills */}
+      <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap', marginBottom: showTypeFilter ? '14px' : '0' }}>
         {GENERATIONS.map(gen => (
           <button
             key={gen.value}
-            onClick={() => {
-              setSelectedGen(gen.value);
-              onGenerationFilter(gen.value);
-            }}
+            onClick={() => { setSelectedGen(gen.value); onGenerationFilter(gen.value); }}
             style={{
-              padding: '6px 14px',
-              background: selectedGen === gen.value ? 'rgba(99,102,241,0.25)' : 'rgba(255,255,255,0.04)',
-              border: selectedGen === gen.value ? '1px solid rgba(99,102,241,0.5)' : '1px solid rgba(255,255,255,0.08)',
-              borderRadius: '8px',
-              color: selectedGen === gen.value ? '#a78bfa' : 'rgba(255,255,255,0.45)',
-              cursor: 'pointer',
-              fontSize: '12px',
-              fontWeight: 600,
-              transition: 'all 0.2s ease',
-              fontFamily: "'Inter', sans-serif",
+              padding: '5px 13px',
+              background: selectedGen === gen.value ? 'rgba(84,89,193,0.22)' : 'rgba(255,255,255,0.04)',
+              border: selectedGen === gen.value ? '1px solid rgba(84,89,193,0.5)' : '1px solid rgba(255,255,255,0.08)',
+              borderRadius: '6px',
+              color: selectedGen === gen.value ? '#9fa4f0' : 'rgba(255,255,255,0.4)',
+              cursor: 'pointer', fontSize: '12px', fontWeight: 600,
+              transition: 'all 0.2s ease', fontFamily: "'Inter', sans-serif",
             }}
           >
             {gen.label}
@@ -241,17 +188,12 @@ export default function SearchBar({
 
       {/* Type filter panel */}
       {showTypeFilter && (
-        <div
-          style={{
-            background: 'rgba(255,255,255,0.03)',
-            border: '1px solid rgba(255,255,255,0.08)',
-            borderRadius: '16px',
-            padding: '16px',
-            display: 'flex',
-            flexWrap: 'wrap',
-            gap: '8px',
-          }}
-        >
+        <div style={{
+          background: 'rgba(255,255,255,0.03)',
+          border: '1px solid rgba(255,255,255,0.07)',
+          borderRadius: '12px', padding: '14px',
+          display: 'flex', flexWrap: 'wrap', gap: '7px',
+        }}>
           {ALL_TYPES.map(type => {
             const tc = TYPE_COLORS[type];
             const active = selectedTypes.includes(type);
@@ -260,16 +202,13 @@ export default function SearchBar({
                 key={type}
                 onClick={() => toggleType(type)}
                 style={{
-                  padding: '6px 14px',
-                  background: active ? tc.bg + '33' : 'rgba(255,255,255,0.04)',
-                  border: active ? `1px solid ${tc.bg}88` : '1px solid rgba(255,255,255,0.08)',
-                  borderRadius: '8px',
-                  color: active ? tc.bg : 'rgba(255,255,255,0.5)',
-                  cursor: 'pointer',
-                  fontSize: '12px',
-                  fontWeight: 600,
-                  transition: 'all 0.2s ease',
-                  fontFamily: "'Inter', sans-serif",
+                  padding: '5px 13px',
+                  background: active ? tc.bg + '28' : 'rgba(255,255,255,0.04)',
+                  border: active ? `1px solid ${tc.bg}` : '1px solid rgba(255,255,255,0.08)',
+                  borderRadius: '6px',
+                  color: active ? tc.bg : 'rgba(255,255,255,0.45)',
+                  cursor: 'pointer', fontSize: '12px', fontWeight: 600,
+                  transition: 'all 0.2s ease', fontFamily: "'Inter', sans-serif",
                   textTransform: 'capitalize',
                 }}
               >
@@ -280,27 +219,16 @@ export default function SearchBar({
         </div>
       )}
 
-      {/* Stats row */}
-      <div
-        style={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          marginTop: '16px',
-        }}
-      >
-        <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '13px' }}>
+      {/* Results count */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '14px' }}>
+        <p style={{ color: 'rgba(255,255,255,0.35)', fontSize: '13px' }}>
           Showing{' '}
-          <span style={{ color: '#a78bfa', fontWeight: 600 }}>{filteredCount.toLocaleString()}</span>
+          <span style={{ color: '#9fa4f0', fontWeight: 600 }}>{filteredCount.toLocaleString()}</span>
           {' '}of{' '}
-          <span style={{ color: 'rgba(255,255,255,0.6)', fontWeight: 600 }}>{totalCount.toLocaleString()}</span>
+          <span style={{ color: 'rgba(255,255,255,0.55)', fontWeight: 600 }}>{totalCount.toLocaleString()}</span>
           {' '}Pokémon
         </p>
-        {hasFilters && (
-          <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: '12px' }}>
-            Filters active
-          </p>
-        )}
+        {hasFilters && <p style={{ color: 'rgba(255,255,255,0.25)', fontSize: '12px' }}>Filters active</p>}
       </div>
     </div>
   );

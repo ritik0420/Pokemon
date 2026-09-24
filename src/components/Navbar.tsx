@@ -1,20 +1,16 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { IconPokeball, IconExternalLink, IconGrid } from '@/components/Icons';
 
 export default function Navbar() {
-  const [menuOpen, setMenuOpen] = useState(false);
-
   return (
     <nav
       style={{
         position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
+        top: 0, left: 0, right: 0,
         zIndex: 50,
-        background: 'rgba(10, 10, 15, 0.85)',
+        background: 'rgba(10, 10, 15, 0.92)',
         backdropFilter: 'blur(20px)',
         WebkitBackdropFilter: 'blur(20px)',
         borderBottom: '1px solid rgba(255,255,255,0.07)',
@@ -32,58 +28,49 @@ export default function Navbar() {
         }}
       >
         {/* Logo */}
-        <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '12px' }}>
-          {/* Pokeball icon */}
-          <div style={{ position: 'relative', width: '36px', height: '36px' }}>
-            <svg viewBox="0 0 100 100" width="36" height="36">
-              <circle cx="50" cy="50" r="48" fill="none" stroke="rgba(255,255,255,0.15)" strokeWidth="4" />
-              <path d="M2 50 A48 48 0 0 1 98 50" fill="#ef4444" />
-              <path d="M2 50 A48 48 0 0 0 98 50" fill="rgba(255,255,255,0.08)" />
-              <line x1="2" y1="50" x2="98" y2="50" stroke="rgba(255,255,255,0.15)" strokeWidth="4" />
-              <circle cx="50" cy="50" r="14" fill="#0a0a0f" stroke="rgba(255,255,255,0.15)" strokeWidth="4" />
-              <circle cx="50" cy="50" r="8" fill="rgba(255,255,255,0.2)" />
-            </svg>
+        <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '11px' }}>
+          <div className="animate-icon-entrance" style={{ animationDelay: '0s' }}>
+            <IconPokeball size={34} />
           </div>
-          <div>
-            <span
-              style={{
-                fontFamily: "'Rajdhani', sans-serif",
-                fontSize: '22px',
-                fontWeight: 700,
-                background: 'linear-gradient(135deg, #a78bfa, #60a5fa)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-                letterSpacing: '0.02em',
-              }}
-            >
-              PokéExplorer
-            </span>
-          </div>
+          <span
+            style={{
+              fontFamily: "'Rajdhani', sans-serif",
+              fontSize: '21px',
+              fontWeight: 700,
+              color: '#f0f0f8',
+              letterSpacing: '0.03em',
+            }}
+          >
+            PokéExplorer
+          </span>
         </Link>
 
         {/* Nav links */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
           <Link
             href="/"
             style={{
-              color: 'rgba(240,240,248,0.7)',
+              color: 'rgba(240,240,248,0.55)',
               textDecoration: 'none',
-              fontSize: '14px',
+              fontSize: '13px',
               fontWeight: 500,
-              padding: '8px 16px',
+              padding: '7px 14px',
               borderRadius: '8px',
               transition: 'all 0.2s ease',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '7px',
             }}
             onMouseEnter={e => {
-              (e.target as HTMLElement).style.color = '#f0f0f8';
-              (e.target as HTMLElement).style.background = 'rgba(255,255,255,0.07)';
+              (e.currentTarget as HTMLElement).style.color = '#f0f0f8';
+              (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.06)';
             }}
             onMouseLeave={e => {
-              (e.target as HTMLElement).style.color = 'rgba(240,240,248,0.7)';
-              (e.target as HTMLElement).style.background = 'transparent';
+              (e.currentTarget as HTMLElement).style.color = 'rgba(240,240,248,0.55)';
+              (e.currentTarget as HTMLElement).style.background = 'transparent';
             }}
           >
+            <IconGrid size={14} />
             Pokédex
           </Link>
 
@@ -92,37 +79,40 @@ export default function Navbar() {
             target="_blank"
             rel="noopener noreferrer"
             style={{
-              color: 'rgba(240,240,248,0.7)',
+              color: 'rgba(240,240,248,0.55)',
               textDecoration: 'none',
-              fontSize: '14px',
+              fontSize: '13px',
               fontWeight: 500,
-              padding: '8px 16px',
+              padding: '7px 14px',
               borderRadius: '8px',
               transition: 'all 0.2s ease',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '7px',
             }}
             onMouseEnter={e => {
-              (e.target as HTMLElement).style.color = '#f0f0f8';
-              (e.target as HTMLElement).style.background = 'rgba(255,255,255,0.07)';
+              (e.currentTarget as HTMLElement).style.color = '#f0f0f8';
+              (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.06)';
             }}
             onMouseLeave={e => {
-              (e.target as HTMLElement).style.color = 'rgba(240,240,248,0.7)';
-              (e.target as HTMLElement).style.background = 'transparent';
+              (e.currentTarget as HTMLElement).style.color = 'rgba(240,240,248,0.55)';
+              (e.currentTarget as HTMLElement).style.background = 'transparent';
             }}
           >
-            API Docs ↗
+            API Docs
+            <IconExternalLink size={12} />
           </a>
 
-          {/* Badge */}
           <div
             style={{
-              background: 'linear-gradient(135deg, rgba(167,139,250,0.15), rgba(96,165,250,0.15))',
-              border: '1px solid rgba(167,139,250,0.25)',
-              color: '#a78bfa',
+              background: 'rgba(84,89,193,0.18)',
+              border: '1px solid rgba(84,89,193,0.35)',
+              color: '#9fa4f0',
               fontSize: '12px',
               fontWeight: 600,
-              padding: '4px 12px',
-              borderRadius: '999px',
-              letterSpacing: '0.05em',
+              padding: '4px 13px',
+              borderRadius: '6px',
+              letterSpacing: '0.04em',
             }}
           >
             1025+ Pokémon
